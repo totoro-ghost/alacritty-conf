@@ -16,7 +16,7 @@ usage() {
 }
 
 set_opacity() {
-    sed -i "/^background_opacity:.*/c\background_opacity: $1" "$CONFIG"
+    sed -i "/^  opacity:.*/c\  opacity: $1" "$CONFIG"
     touch "$CONFIG"
 }
 
@@ -27,9 +27,8 @@ set_padding() {
 }
 
 set_color() {
-    sed -i '/^## BEGIN-COLOR/,/^## END-COLOR/{/^## BEGIN-COLOR/!{/^## END-COLOR/!d}}' "$CONFIG"
-    sed -i '/^## END-COLOR/c\\n## END-COLOR' "$CONFIG"
-    sed -e "/^## BEGIN-COLOR/{r $1" -e '}' -i "$CONFIG"
+    TEMP="$(echo "$THEME_DIR" | sed 's_/_\\/_g')"
+    sed -i "/$TEMP/c\  - $TEMP\/$1" "$CONFIG"
     touch "$CONFIG"
 }
 
@@ -73,6 +72,12 @@ while [[ $# -gt 0 ]]; do
     esac
 done
 
+# for debugging
+# echo "PADDING: $PADDING"
+# echo "OPACITY: $OPACITY"
+# echo "COLOR: $COLOR"
+# echo "FONT: $FONT"
+
 if [ -n "$OPACITY" ]; then
     regex1='^[0-9]+([.][0-9]+)?$'
     if ! [[ "$OPACITY" =~ $regex1 ]]; then
@@ -101,10 +106,10 @@ fi
 if [ -n "$COLOR" ]; then
     if [ -f "$THEME_DIR/$COLOR.yml" ]; then
         echo "Color scheme exists. Applying..."
-        set_color "$THEME_DIR/$COLOR.yml"
+        set_color "$COLOR.yml"
     elif [ -f "$THEME_DIR/$COLOR.yaml" ]; then
         echo "Color scheme exists. Applying..."
-        set_color "$THEME_DIR/$COLOR.yaml"
+        set_color "$COLOR.yaml"
     else
         echo "Color scheme dosen't exists."
     fi

@@ -19,43 +19,50 @@ Usage: alacritty-conf [options] [value] ...
 
 ## Edit your config
 
-You have to edit your alacritty config for this script to work. Otherwise you have to make changes in the script.
-
-- alacritty config should be `~/.config/alacritty/alacritty.yml`, or you have to change the `CONFIG` variable in `alacritty-conf`
-- the opacity option `background_opacity: 1` should not have any space in front
-- for the color scheme to work, enclose your color settings between `## BEGIN-COLOR` and `## END-COLOR`, and put the themes in `~/.config/alacritty/themes` - get alacritty themes [here](https://github.com/eendroroy/alacritty-theme)
-```yaml
-## BEGIN-COLOR
-# Colors (Gruvbox dark)
-colors:
-  # Default colors
-  primary:
-    # hard contrast: background = '0x1d2021'
-    background: '0x282828'
-    # soft contrast: background = '0x32302f'
-    foreground: '0xebdbb2'
-            :
-            :
-            :
-    yellow:  '0xfabd2f'
-    blue:    '0x83a598'
-    magenta: '0xd3869b'
-    cyan:    '0x8ec07c'
-    white:   '0xebdbb2'
-## END-COLOR
-```
-- indent the `padding:` section in your config as follows:
+Here is a sample config what your config should look like, i only added options which this script modifies, your config will have other options too.
 
 ```yaml
+# first import the color scheme
+# notice the use of absolute path not relative
+import:
+  - /home/antihero/.config/alacritty/themes/one_dark_pro.yml
+# notice that everything is indented by two spaces
+window:
   padding:
-    x: 10
-    y: 10
+    x: 40
+    y: 40
+  opacity: 1.0
+# this script replace font in every style to the given font
+font:
+  normal:
+    family: Iosevka Nerd Font
+    style: Regular
+  bold:
+    family: Iosevka Nerd Font
+    style: Bold
+  italic:
+    family: Iosevka Nerd Font
+    style: Italic
+  bold_italic:
+    family: Iosevka Nerd Font
+    style: Bold Italic
 ```
-i.e. two spaces before `padding` and four spaces before `x` and `y`
 
+- `CONFIG` var is used to set the location of alacritty config
+- `THEME_DIR` var is used to set the location of the folder which contains the themes. You can get many themes from [here](https://github.com/eendroroy/alacritty-theme)
 
 ## Installation
 
-- copy `alacritty-conf` to any directory in your `$PATH`
-- copy `rofi-alacritty` to `~/.config/rofi`
+- copy `alacritty-conf` to any directory in your `$PATH`, or crete a softlink
+
+For rofi menu:
+
+- copy `rofi-alacritty` directory to `~/.config/rofi`
 - set a keybind to run `~/.config/rofi/rofi-alacritty/rofi-alacritty`
+- to add more profiles add modify the script, and add more options to it
+
+For dmenu menu:
+
+- just add keybind to `dmalacritty` 
+
+Open issues if you face any problems.
