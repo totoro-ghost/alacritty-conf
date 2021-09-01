@@ -65,4 +65,10 @@ For dmenu menu:
 
 - just add keybind to `dmalacritty` 
 
+## Preview
+
+![gif-rofi](display.gif)
+
+`rofi-preview`
+
 Open issues if you face any problems.
